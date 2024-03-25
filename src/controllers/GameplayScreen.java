@@ -12,9 +12,9 @@ import java.util.List;
 public class GameplayScreen extends JFrame implements KeyListener {
     private JPanel GamePanel;
     private JLabel movableBox;
-    private boolean[] keyStates = new boolean[256];
-    private List<JLabel> collisionLabels = new ArrayList<>();
-    private List<JLabel> invisibleLabels = new ArrayList<>();
+    private final boolean[] keyStates = new boolean[256];
+    private final List<JLabel> collisionLabels = new ArrayList<>();
+    private final List<JLabel> invisibleLabels = new ArrayList<>();
 
     public GameplayScreen() {
         add(GamePanel);
@@ -37,6 +37,10 @@ public class GameplayScreen extends JFrame implements KeyListener {
         new Timer(20, e -> update()).start();
     }
 
+    public static void main(String[] args) {
+        new GameplayScreen();
+    }
+
     private void addMovableBox() {
         movableBox = new JLabel();
         movableBox.setOpaque(true);
@@ -49,6 +53,30 @@ public class GameplayScreen extends JFrame implements KeyListener {
     private void addCollisionLabels() {
         addCollisionLabel(90, 525, 25, 50);
         addCollisionLabel(115, 550, 25, 25);
+
+        // Third big row (Center)
+        addCollisionLabel(35, 315, 10, 30);
+
+        addCollisionLabel(92, 295, 20, 70);
+        addCollisionLabel(115, 300, 20, 65);
+
+        addCollisionLabel(160, 315, 10, 30);
+
+        addCollisionLabel(195, 300, 20, 65);
+        addCollisionLabel(218, 295, 10, 70);
+
+        addCollisionLabel(275, 315, 10, 30);
+        addCollisionLabel(400, 315, 10, 30);
+
+        addCollisionLabel(458, 295, 10, 70);
+        addCollisionLabel(470, 300, 20, 65);
+
+        addCollisionLabel(515, 315, 10, 30);
+
+        addCollisionLabel(550, 300, 20, 65);
+        addCollisionLabel(573, 295, 20, 70);
+
+        addCollisionLabel(640, 315, 10, 30);
     }
 
     private void addCollisionLabel(int x, int y, int width, int height) {
@@ -71,6 +99,18 @@ public class GameplayScreen extends JFrame implements KeyListener {
         addInvisibleLabel(115, 540, 10, 10);
         addInvisibleLabel(125, 540, 10, 10);
 
+        addInvisibleLabel(262, 484, 35, 35);
+        addInvisibleLabel(388, 484, 35, 35);
+
+        // Third big row (Center)
+        addInvisibleLabel(235, 305, 15, 50);
+        addInvisibleLabel(228, 295, 10, 70);
+
+        addInvisibleLabel(320, 295, 45, 70);
+        addInvisibleLabel(310, 305, 65, 50);
+
+        addInvisibleLabel(435, 305, 15, 50);
+        addInvisibleLabel(447, 295, 10, 70);
     }
 
     private void addInvisibleLabel(int x, int y, int width, int height) {
@@ -83,8 +123,7 @@ public class GameplayScreen extends JFrame implements KeyListener {
     }
 
     private void update() {
-        if (keyStates[KeyEvent.VK_UP] || keyStates[KeyEvent.VK_DOWN] ||
-                keyStates[KeyEvent.VK_LEFT] || keyStates[KeyEvent.VK_RIGHT]) {
+        if (keyStates[KeyEvent.VK_UP] || keyStates[KeyEvent.VK_DOWN] || keyStates[KeyEvent.VK_LEFT] || keyStates[KeyEvent.VK_RIGHT]) {
 
             Point position = movableBox.getLocation();
             int MOVE_INCREMENT = 2;
@@ -125,23 +164,18 @@ public class GameplayScreen extends JFrame implements KeyListener {
         }
     }
 
-
     @Override
     public void keyTyped(KeyEvent e) {
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        keyStates[e.getKeyCode()] = true;
+        if (e.getKeyCode() >= 0 && e.getKeyCode() < keyStates.length) keyStates[e.getKeyCode()] = true;
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        keyStates[e.getKeyCode()] = false;
-    }
-
-    public static void main(String[] args) {
-        new GameplayScreen();
+        if (e.getKeyCode() >= 0 && e.getKeyCode() < keyStates.length) keyStates[e.getKeyCode()] = false;
     }
 
     private void createUIComponents() {
